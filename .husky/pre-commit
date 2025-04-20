@@ -1,6 +1,19 @@
 #!/usr/bin/env sh
 
-# Run lint:fix, prettier:fix and bump
-pnpm bump
+# Run lint:fix, prettier:fix
 pnpm lint:fix
 pnpm prettier:fix
+
+
+# Ensure version bump was made
+if git diff --cached --name-only | grep -q "^package.json$"; then
+  if git diff --cached package.json | grep -q '"version":'; then
+    echo "✅ Version bump detected."
+  else
+    echo "❌ Please bump the version in package.json before committing."
+    exit 1
+  fi
+else
+  echo "❌ Please stage package.json with a version bump before committing."
+  exit 1
+fi
