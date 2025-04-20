@@ -1,0 +1,16 @@
+# Ignore artifacts:
+node_modules
+dist
+build
+coverage
+logs
+*.log
+
+# Ignore version control:
+.git
+
+# Ignore specific file types (if not formatted by prettier)
+# *.some_other_extension
+
+# Specific directories if needed:
+# HotelServices/some-non-formatted-dir/

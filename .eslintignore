@@ -1,0 +1,18 @@
+# Ignore artifacts:
+node_modules
+dist
+build
+coverage
+logs
+*.log
+
+# Ignore version control:
+.git
+
+# Configuration files (often managed differently)
+# You might want to lint these, adjust as needed:
+# .eslintrc.js
+# .prettierrc.js
+
+# Specific directories if needed:
+# HotelServices/some-non-js-dir/

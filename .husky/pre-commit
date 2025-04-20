@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Run lint-staged on staged files
+npx lint-staged
+LINT_STAGED_EXIT_CODE=$?
+
+# Exit if lint-staged failed
+if [ $LINT_STAGED_EXIT_CODE -ne 0 ]; then
+  exit $LINT_STAGED_EXIT_CODE
+fi
+
+# Bump version in package.json (patch level, no tag)
+echo "Bumping package version..."
+npm version patch --no-git-tag-version
+VERSION_BUMP_EXIT_CODE=$?
+
+# Exit if version bump failed
+if [ $VERSION_BUMP_EXIT_CODE -ne 0 ]; then
+  echo "Version bump failed!"
+  exit $VERSION_BUMP_EXIT_CODE
+fi
+
+# Stage the updated package.json and package-lock.json
+git add package.json package-lock.json
+
+# Exit with success (commit will proceed)
+exit 0
