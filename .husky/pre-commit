@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
 # Run lint:fix, prettier:fix and bump
+pnpm bump
 pnpm lint:fix
 pnpm prettier:fix
-pnpm bump
