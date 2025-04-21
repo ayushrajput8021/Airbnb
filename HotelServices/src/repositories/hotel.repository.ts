@@ -22,3 +22,25 @@ export async function getHotelById(id: number) {
   }
   return hotel;
 }
+
+export async function updateHotelById(id: number, hotelData: createHotelDTO) {
+  const hotel = await Hotel.findByPk(id);
+  if (!hotel) {
+    throw new NotFoundError('Hotel not found');
+  }
+  await hotel.update(hotelData);
+  return hotel;
+}
+
+export async function deleteHotelById(id: number) {
+  const hotel = await Hotel.findByPk(id);
+  if (!hotel) {
+    throw new NotFoundError('Hotel not found');
+  }
+  await hotel.destroy();
+}
+
+export async function getHotels() {
+  const hotels = await Hotel.findAll();
+  return hotels;
+}

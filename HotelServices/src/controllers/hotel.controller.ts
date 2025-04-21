@@ -1,5 +1,11 @@
 import { Request, Response } from 'express';
-import { createHotelService, getHotelByIdService } from '../services/hotel.service';
+import {
+  createHotelService,
+  deleteHotelByIdService,
+  getHotelByIdService,
+  getHotelsService,
+  updateHotelByIdService,
+} from '../services/hotel.service';
 
 export async function createHotelHandler(req: Request, res: Response) {
   const hotelData = req.body;
@@ -18,5 +24,34 @@ export async function getHotelByIdHandler(req: Request, res: Response) {
     success: true,
     message: 'Hotel fetched successfully',
     data: hotelResponse,
+  });
+}
+
+export async function updateHotelByIdHandler(req: Request, res: Response) {
+  const { id } = req.params;
+  const hotelData = req.body;
+  const hotelResponse = await updateHotelByIdService(Number(id), hotelData);
+  res.status(200).json({
+    success: true,
+    message: 'Hotel updated successfully',
+    data: hotelResponse,
+  });
+}
+
+export async function deleteHotelByIdHandler(req: Request, res: Response) {
+  const { id } = req.params;
+  await deleteHotelByIdService(Number(id));
+  res.status(200).json({
+    success: true,
+    message: 'Hotel deleted successfully',
+  });
+}
+
+export async function getHotelsHandler(req: Request, res: Response) {
+  const hotels = await getHotelsService();
+  res.status(200).json({
+    success: true,
+    message: 'Hotels fetched successfully',
+    data: hotels,
   });
 }
