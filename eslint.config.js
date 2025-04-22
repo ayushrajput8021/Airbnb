@@ -14,7 +14,10 @@ export default [
       'logs/',
       '*.log',
       '.git/',
-      // Add any other specific directories/files like 'HotelServices/some-non-js-dir/'
+      'HotelServices/**/*.ts',
+      'HotelServices/src/db/migrations/**/*.ts',
+      'HotelServices/dist/**/*.ts',
+      'HotelServices/dist/**/*.js',
     ],
   },
   // Base configuration for JS files
