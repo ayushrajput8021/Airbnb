@@ -1,3 +1,4 @@
+import { Op } from 'sequelize';
 import logger from '../config/logger.config';
 import Hotel from '../db/models/hotel';
 import { createHotelDTO } from '../dto/hotel.dto';
@@ -18,7 +19,7 @@ export async function createHotel(hotelData: createHotelDTO) {
 export async function getHotelById(id: number) {
   const hotel = await Hotel.findByPk(id);
   if (!hotel) {
-    throw new NotFoundError('Hotel not found');
+    throw new NotFoundError(`Hotel with id ${id} not found`);
   }
   return hotel;
 }
@@ -26,7 +27,7 @@ export async function getHotelById(id: number) {
 export async function updateHotelById(id: number, hotelData: createHotelDTO) {
   const hotel = await Hotel.findByPk(id);
   if (!hotel) {
-    throw new NotFoundError('Hotel not found');
+    throw new NotFoundError(`Hotel with id ${id} not found`);
   }
   await hotel.update(hotelData);
   return hotel;
@@ -35,12 +36,27 @@ export async function updateHotelById(id: number, hotelData: createHotelDTO) {
 export async function deleteHotelById(id: number) {
   const hotel = await Hotel.findByPk(id);
   if (!hotel) {
-    throw new NotFoundError('Hotel not found');
+    throw new NotFoundError(`Hotel with id ${id} not found`);
   }
   await hotel.destroy();
 }
 
-export async function getHotels() {
-  const hotels = await Hotel.findAll();
+export async function getAllHotels() {
+  const hotels = await Hotel.findAll({
+    where: {
+      deletedAt: null,
+    },
+  });
   return hotels;
+}
+
+export async function softDeleteHotelById(id: number) {
+  const hotel = await Hotel.findByPk(id);
+  if (!hotel) {
+    throw new NotFoundError(`Hotel with id ${id} not found`);
+  }
+  hotel.deletedAt = new Date();
+  await hotel.save();
+  logger.info(`Hotel with id ${id} soft deleted successfully`);
+  return hotel;
 }

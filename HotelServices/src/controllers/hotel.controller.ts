@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import {
   createHotelService,
-  deleteHotelByIdService,
   getHotelByIdService,
-  getHotelsService,
+  getAllHotelsService,
   updateHotelByIdService,
+  softDeleteHotelByIdService,
 } from '../services/hotel.service';
 import { StatusCodes } from 'http-status-codes';
 
@@ -44,7 +44,7 @@ export async function updateHotelByIdHandler(req: Request, res: Response) {
 
 export async function deleteHotelByIdHandler(req: Request, res: Response) {
   const { id } = req.params;
-  await deleteHotelByIdService(Number(id));
+  await softDeleteHotelByIdService(Number(id));
 
   res.status(StatusCodes.OK).json({
     success: true,
@@ -52,8 +52,8 @@ export async function deleteHotelByIdHandler(req: Request, res: Response) {
   });
 }
 
-export async function getHotelsHandler(req: Request, res: Response) {
-  const hotels = await getHotelsService();
+export async function getAllHotelsHandler(req: Request, res: Response) {
+  const hotels = await getAllHotelsService();
 
   res.status(StatusCodes.OK).json({
     success: true,

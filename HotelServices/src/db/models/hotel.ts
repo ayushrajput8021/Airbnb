@@ -1,7 +1,16 @@
-import { Model, InferAttributes, InferCreationAttributes, CreationOptional, DataTypes } from 'sequelize';
+import {
+  Model,
+  InferAttributes,
+  InferCreationAttributes,
+  CreationOptional,
+  DataTypes,
+} from 'sequelize';
 import sequelize from './sequelize';
 
-class Hotel extends Model<InferAttributes<Hotel>, InferCreationAttributes<Hotel>> {
+class Hotel extends Model<
+  InferAttributes<Hotel>,
+  InferCreationAttributes<Hotel>
+> {
   declare id: CreationOptional<number>;
   declare name: string;
   declare address: string;
@@ -10,6 +19,7 @@ class Hotel extends Model<InferAttributes<Hotel>, InferCreationAttributes<Hotel>
   declare ratingCount?: number;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
+  declare deletedAt: CreationOptional<Date | null>;
 }
 
 Hotel.init(
@@ -48,6 +58,11 @@ Hotel.init(
     updatedAt: {
       type: DataTypes.DATE,
       allowNull: false,
+    },
+    deletedAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: null,
     },
   },
   {

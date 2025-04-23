@@ -3,7 +3,7 @@ import {
   createHotelHandler,
   deleteHotelByIdHandler,
   getHotelByIdHandler,
-  getHotelsHandler,
+  getAllHotelsHandler,
   updateHotelByIdHandler,
 } from '../../controllers/hotel.controller';
 import { validateRequestBody } from '../../validators';
@@ -15,10 +15,14 @@ hotelRouter.post('/', validateRequestBody(HotelSchema), createHotelHandler);
 
 hotelRouter.get('/:id', getHotelByIdHandler);
 
-hotelRouter.put('/:id', validateRequestBody(HotelSchema), updateHotelByIdHandler);
+hotelRouter.put(
+  '/:id',
+  validateRequestBody(HotelSchema),
+  updateHotelByIdHandler
+);
 
 hotelRouter.delete('/:id', deleteHotelByIdHandler);
 
-hotelRouter.get('/', getHotelsHandler);
+hotelRouter.get('/', getAllHotelsHandler);
 
 export default hotelRouter;
