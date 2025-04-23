@@ -15,11 +15,7 @@ hotelRouter.post('/', validateRequestBody(HotelSchema), createHotelHandler);
 
 hotelRouter.get('/:id', getHotelByIdHandler);
 
-hotelRouter.put(
-  '/:id',
-  validateRequestBody(HotelSchema),
-  updateHotelByIdHandler
-);
+hotelRouter.put('/:id', validateRequestBody(HotelSchema), updateHotelByIdHandler);
 
 hotelRouter.delete('/:id', deleteHotelByIdHandler);
 

@@ -24,10 +24,7 @@ export async function getHotelByIdService(id: number) {
   return hotel;
 }
 
-export async function updateHotelByIdService(
-  id: number,
-  hotelData: createHotelDTO
-) {
+export async function updateHotelByIdService(id: number, hotelData: createHotelDTO) {
   if (!id) {
     throw new BadRequestError('Hotel ID is required');
   }
