@@ -1,4 +1,3 @@
-import { Op } from 'sequelize';
 import logger from '../config/logger.config';
 import Hotel from '../db/models/hotel';
 import { createHotelDTO } from '../dto/hotel.dto';
