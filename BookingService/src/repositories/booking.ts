@@ -1,9 +1,68 @@
 import prismaClient from '../prisma/client';
-import { Prisma } from '@prisma/client';
+import { Prisma, BookingStatus } from '@prisma/client';
 
 export async function createBooking(bookingInput: Prisma.BookingCreateInput) {
   const booking = await prismaClient.booking.create({
     data: bookingInput,
   });
   return booking;
+}
+
+export async function createIdempotencyKey(bookingId: number, key: string) {
+  const idempotencyKey = await prismaClient.idempotencyKey.create({
+    data: {
+      key,
+      booking: {
+        connect: { id: bookingId },
+      },
+    },
+  });
+  return idempotencyKey;
+}
+
+export async function getIdempotencyKey(key: string) {
+  const idempotencyKey = await prismaClient.idempotencyKey.findUnique({
+    where: { key },
+  });
+  return idempotencyKey;
+}
+
+export async function getBookingById(id: number) {
+  const booking = await prismaClient.booking.findUnique({
+    where: { id },
+  });
+  return booking;
+}
+
+// Use State Design pattern for this function
+export async function changeBookingStatus(id: number, status: BookingStatus) {
+  const booking = await prismaClient.booking.update({
+    where: { id },
+    data: { status },
+  });
+  return booking;
+}
+
+export async function confirmBooking(id: number) {
+  const booking = await prismaClient.booking.update({
+    where: { id },
+    data: { status: 'CONFIRMED' },
+  });
+  return booking;
+}
+
+export async function cancelBooking(id: number) {
+  const booking = await prismaClient.booking.update({
+    where: { id },
+    data: { status: 'CANCELLED' },
+  });
+  return booking;
+}
+
+export async function finalizeIdempotencyKey(key: string) {
+  const idempotencyKey = await prismaClient.idempotencyKey.update({
+    where: { key },
+    data: { finalized: true },
+  });
+  return idempotencyKey;
 }
