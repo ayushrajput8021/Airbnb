@@ -9,6 +9,22 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Booking {
+  id        Int   @id @default(autoincrement())
+  userId    Int
+  hotelId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  status    BookingStatus @default(PENDING)
+  totalGuests Int
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
 }

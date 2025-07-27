@@ -4,6 +4,7 @@ services:
     container_name: mysql
     environment:
       MYSQL_ROOT_PASSWORD: password
+      MYSQL_ROOT_USER: root
       MYSQL_DATABASE: airbnb
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin_password
