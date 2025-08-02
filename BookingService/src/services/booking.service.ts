@@ -10,17 +10,29 @@ import { generateIdempotencyKey } from '../utils/generateIdempotencyKey';
 import { CreateBookingDTO } from '../dtos/booking.dto';
 import PrismaClient from '../prisma/client';
 import { Prisma } from '@prisma/client';
+import { redlock } from '../config/redis.config';
+import { serverConfig } from '../config';
 
 export async function createBookingService(createBookingDTO: CreateBookingDTO) {
-  // This should be here : booking amount should come from calling the hotelapi and not from the client
-  const booking = await createBooking({
-    userId: createBookingDTO.userId,
-    hotelId: createBookingDTO.hotelId,
-    totalGuests: createBookingDTO.totalGuests,
-    bookingAmount: createBookingDTO.bookingAmount,
-  });
-  const idempotencyKey = await createIdempotencyKey(booking.id, generateIdempotencyKey());
-  return { booking, idempotencyKey };
+  // This is the ttl for the lock
+  const ttl = serverConfig.REDIS_LOCK_TTL;
+
+  // This is the resource that will be locked for the booking process
+  const bookingResource = `hotel:${createBookingDTO.hotelId}`;
+
+  try {
+    await redlock.acquire([bookingResource], ttl);
+    const booking = await createBooking({
+      userId: createBookingDTO.userId,
+      hotelId: createBookingDTO.hotelId,
+      totalGuests: createBookingDTO.totalGuests,
+      bookingAmount: createBookingDTO.bookingAmount,
+    });
+    const idempotencyKey = await createIdempotencyKey(booking.id, generateIdempotencyKey());
+    return { booking, idempotencyKey };
+  } catch (error) {
+    throw new BadRequestError('Hotel is not available');
+  }
 }
 
 export async function confirmBookingService(idempotencyKey: string) {
