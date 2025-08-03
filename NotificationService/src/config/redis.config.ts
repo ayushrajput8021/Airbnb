@@ -1,5 +1,4 @@
-import IORedis, { Redis } from 'ioredis';
-import Redlock from 'redlock';
+import { Redis } from 'ioredis';
 import { serverConfig } from '.';
 import logger from './logger.config';
 
@@ -11,10 +10,15 @@ import logger from './logger.config';
 function connectToRedis() {
   try {
     let connection: Redis;
+    const redisConfig = {
+      port: serverConfig.REDIS_PORT,
+      host: serverConfig.REDIS_HOST,
+      maxRetriesPerRequest: null,
+    };
 
     return () => {
       if (!connection) {
-        connection = new IORedis(serverConfig.REDIS_SERVER_URL);
+        connection = new Redis(redisConfig);
       }
       return connection;
     };
@@ -25,10 +29,3 @@ function connectToRedis() {
 }
 
 export const getRedisClient = connectToRedis();
-
-export const redlock = new Redlock([getRedisClient()], {
-  driftFactor: 0.01,
-  retryCount: 10,
-  retryDelay: 200,
-  retryJitter: 200,
-});
