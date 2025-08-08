@@ -5,6 +5,8 @@ type ServerConfig = {
   PORT: number;
   REDIS_HOST: string;
   REDIS_PORT: number;
+  MAILER_EMAIL: string;
+  MAILER_PASSWORD: string;
 };
 
 function loadEnv() {
@@ -18,4 +20,6 @@ export const serverConfig: ServerConfig = {
   PORT: Number(process.env.PORT) || 3001,
   REDIS_HOST: process.env.REDIS_HOST || 'localhost',
   REDIS_PORT: Number(process.env.REDIS_PORT) || 6379,
+  MAILER_EMAIL: process.env.MAILER_EMAIL || 'your-email@gmail.com',
+  MAILER_PASSWORD: process.env.MAILER_PASSWORD || 'your-password',
 };

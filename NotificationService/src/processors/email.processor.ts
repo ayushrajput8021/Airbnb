@@ -4,6 +4,8 @@ import { NotificationDto } from '../dtos/notification.dto';
 import logger from '../config/logger.config';
 import { getRedisClient } from '../config/redis.config';
 import { MAILER_PAYLOAD } from '../producers/email.producer';
+import { renderMailTemplate } from '../templates/templates.handles';
+import { sendEmail } from '../services/mailer.service';
 
 /**
  * @name setupMailerWorker
@@ -16,7 +18,9 @@ export const setupMailerWorker = () => {
       if (job.name !== MAILER_PAYLOAD) {
         throw new Error('Invalid job name');
       }
-      // TODO: Implement email sending logic
+      const emailContent = await renderMailTemplate(job.data.templateId, job.data.params);
+      await sendEmail(job.data.to, job.data.subject, emailContent);
+      logger.info(`Email sent to ${job.data.to} with subject ${job.data.subject}`);
     },
     {
       connection: getRedisClient(),

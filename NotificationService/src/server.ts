@@ -6,6 +6,7 @@ import { appErrorHandler, genericErrorHandler } from './middlewares/error.middle
 import logger from './config/logger.config';
 import { attachCorrelationIdMiddleware } from './middlewares/correlation.middleware';
 import { setupMailerWorker } from './processors/email.processor';
+import { addEmailToQueue } from './producers/email.producer';
 
 const app = express();
 
