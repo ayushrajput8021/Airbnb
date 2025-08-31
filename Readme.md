@@ -1,78 +1,40 @@
-# Airbnb Clone - Microservices Project
+# Airbnb Clone - Microservices
 
-A clone of the Airbnb platform built using a microservices architecture. This project serves as a learning ground to apply and solidify backend development concepts and system design principles.
+A microservices-based Airbnb clone built with Node.js, TypeScript, and Docker.
 
-The journey, challenges, and solutions encountered during the development of this project will be documented and shared.
-
-## Project Goals
-
-- Implement core Airbnb features using microservices.
-- Apply best practices in backend development and system design.
-- Utilize Docker for containerization and consistent environments.
-- Enforce code quality using ESLint, Prettier, and Husky.
-- Learn in public by sharing progress and challenges.
+![System Architecture](https://media.licdn.com/dms/image/v2/D4D22AQGJkEjR38UfTg/feedshare-shrink_2048_1536/B4DZh4oMwuGQAo-/0/1754370462905?e=1759363200&v=beta&t=bYzFxi0ax8fOZAbMix_Q5mXSmXPMkWqcDkplG7B3y3A)
 
 ## Services
 
-Currently planned/implemented services:
-
-- **HotelServices:** Manages hotel listings, details, availability, etc. (Located in `/HotelServices`)
-- _(More services to be added, e.g., User Service, Booking Service, Payment Service)_
+- **HotelServices** - Hotel listings and management (Sequelize + MySQL)
+- **BookingService** - Booking operations (Prisma + PostgreSQL)
+- **NotificationService** - Email notifications (Redis + Bull Queue)
 
 ## Tech Stack
 
-- **Backend:** Node.js, Express.js (initially, may vary per service)
-- **Database:** MySQL (managed via Docker)
-- **Containerization:** Docker, Docker Compose
-- **Code Quality:** ESLint, Prettier
-- **Git Hooks:** Husky, lint-staged
+- **Backend:** Node.js, Express.js, TypeScript
+- **Databases:** MySQL, PostgreSQL, Redis
+- **Tools:** Docker, ESLint, Prettier, Husky
 - **Package Manager:** pnpm
 
-## Getting Started
+## Quick Start
 
-1. **Clone the repository:**
+```bash
+# Clone and setup
+git clone https://github.com/ayushrajput8021/Airbnb.git
+cd Airbnb
+npm install
 
-   ```bash
-   git clone https://github.com/ayushrajput8021/Airbnb.git
-   cd Airbnb
-   ```
+# Start all services
+docker compose up -d
+```
 
-2. **Install root dependencies:**
+## Scripts
 
-   ```bash
-   npm install
-   ```
-
-   _(Note: Each microservice might have its own dependencies. Navigate to the service directory and run `npm install` if needed.)_
-
-3. **Start services (including database):**
-
-   ```bash
-   docker compose up -d
-   ```
-
-4. **(Optional) Run individual services locally (if applicable):**
-   - Navigate to the service directory (e.g., `cd HotelServices`).
-   - Run the start script (e.g., `npm start` or `npm run dev` - _Define these within each service's package.json_).
-
-## Available Scripts (Root Level)
-
-- `npm run lint`: Lint all JavaScript/TypeScript files in the project.
-- `npm run format`: Format all supported files using Prettier.
-- `npm test`: (Placeholder) Run tests.
-- `npm run prepare`: Installs Husky hooks (runs automatically after `npm install`).
-
-## Code Quality & Committing
-
-This project uses ESLint and Prettier, managed by Husky and lint-staged.
-
-- **Pre-commit Hook:** Before any commit, staged files are automatically linted and formatted. Ensure your changes adhere to the defined styles (`.eslintrc.js`, `.prettierrc.js`). Commits will fail if linting errors persist after auto-fixing.
-- **Auto-Versioning:** The `package.json` version at the root level is automatically incremented (patch version) on every successful commit.
+- `npm run lint` - Lint code
+- `npm run format` - Format code
+- `npm test` - Run tests
 
 ## Contributing
 
-Contributions are welcome! Please ensure your code adheres to the linting and formatting standards enforced by the pre-commit hooks.
-
-## License
-
-ISC (See `package.json`)
+Code is automatically linted and formatted on commit via Husky hooks.
