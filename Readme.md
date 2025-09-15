@@ -1,6 +1,6 @@
-# Airbnb Clone - Microservices
+# StayEase - Microservices
 
-A microservices-based Airbnb clone built with Node.js, TypeScript, and Docker.
+A microservices-based stay booking platfrom built with Node.js, TypeScript, and Docker.
 
 ![System Architecture](https://media.licdn.com/dms/image/v2/D4D22AQGJkEjR38UfTg/feedshare-shrink_2048_1536/B4DZh4oMwuGQAo-/0/1754370462905?e=1759363200&v=beta&t=bYzFxi0ax8fOZAbMix_Q5mXSmXPMkWqcDkplG7B3y3A)
 
